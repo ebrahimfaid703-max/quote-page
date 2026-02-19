@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>باقات إدارة السوشيال ميديا</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;400;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #F0D080;
+    --dark: #0D0D0D;
+    --dark3: #1E1E1E;
+    --text: #E8E8E8;
+    --muted: #888;
+    --green: #4CAF82;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--dark); color: var(--text); font-family: 'Cairo', sans-serif; overflow-x: hidden; }
+  body::before {
+    content: ''; position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 0;
+  }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+  header { padding: 80px 0 60px; text-align: center; position: relative; }
+  header::before {
+    content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%); pointer-events: none;
+  }
+  .badge {
+    display: inline-block; border: 1px solid var(--gold); color: var(--gold);
+    font-size: 12px; font-weight: 700; letter-spacing: 3px; padding: 6px 20px;
+    border-radius: 2px; margin-bottom: 24px; animation: fadeDown 0.6s ease both;
+  }
+  h1 { font-family: 'Tajawal', sans-serif; font-size: clamp(36px,6vw,72px); font-weight: 800; line-height: 1.1; animation: fadeDown 0.6s 0.1s ease both; }
+  h1 span { color: var(--gold); }
+  .subtitle { margin-top: 16px; color: var(--muted); font-size: 16px; max-width: 600px; margin-inline: auto; line-height: 1.7; animation: fadeDown 0.6s 0.2s ease both; }
+
+  .discount-banner {
+    background: linear-gradient(135deg, #1a1000, #2a1f00);
+    border: 1px solid var(--gold); border-radius: 12px;
+    padding: 18px 28px; margin-bottom: 50px;
+    display: flex; align-items: center; justify-content: center; gap: 16px;
+    flex-wrap: wrap; text-align: center; animation: fadeDown 0.6s 0.3s ease both;
+  }
+  .discount-badge { background: var(--gold); color: var(--dark); font-size: 22px; font-weight: 900; padding: 8px 20px; border-radius: 8px; white-space: nowrap; }
+  .discount-text { font-size: 15px; color: var(--text); font-weight: 600; }
+  .discount-text span { color: var(--gold); font-weight: 700; }
+
+  .section-title { font-family: 'Tajawal', sans-serif; font-size: 28px; font-weight: 800; margin-bottom: 8px; }
+  .section-sub { color: var(--muted); font-size: 14px; margin-bottom: 36px; }
+
+  .platforms-section { margin-bottom: 50px; }
+  .platforms-row { display: flex; flex-wrap: wrap; gap: 10px; }
+  .platform-chip {
+    background: var(--dark3); border: 1px solid #2a2a2a; border-radius: 30px;
+    padding: 8px 18px; font-size: 13px; display: flex; align-items: center; gap: 7px;
+    transition: border-color 0.2s, transform 0.2s; cursor: default;
+  }
+  .platform-chip:hover { border-color: var(--gold); transform: translateY(-2px); }
+  .platform-chip .icon { font-size: 16px; }
+
+  .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 16px; margin-bottom: 80px; }
+  .service-category {
+    background: var(--dark3); border: 1px solid #2a2a2a; border-radius: 12px; padding: 24px;
+    transition: border-color 0.3s, transform 0.3s; animation: fadeUp 0.5s ease both;
+  }
+  .service-category:hover { border-color: var(--gold); transform: translateY(-4px); }
+  .service-category.external-services { border-style: dashed; border-color: #3a3a2a; position: relative; overflow: hidden; }
+  .service-category.external-services::after {
+    content: 'حسب الطلب'; position: absolute; top: 12px; left: 16px;
+    background: rgba(201,168,76,0.15); color: var(--gold); font-size: 10px; font-weight: 700;
+    padding: 3px 10px; border-radius: 20px; border: 1px solid rgba(201,168,76,0.3);
+  }
+  .cat-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+  .cat-icon {
+    width: 40px; height: 40px; background: linear-gradient(135deg, var(--gold), #8B6914);
+    border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0;
+  }
+  .cat-name { font-weight: 700; font-size: 15px; }
+  .service-list { list-style: none; }
+  .service-list li { font-size: 13px; color: #bbb; padding: 6px 0; border-bottom: 1px solid #2a2a2a; display: flex; align-items: center; gap: 8px; }
+  .service-list li:last-child { border-bottom: none; }
+  .service-list li::before { content: '✦'; color: var(--gold); font-size: 8px; flex-shrink: 0; }
+
+  .packages-section { margin-bottom: 60px; }
+  .packages-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; align-items: start; }
+  @media (max-width: 900px) {
+    .packages-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
+    .package-card.pro { transform: scale(1); }
+    .package-card.pro:hover { transform: translateY(-6px); }
+  }
+  .package-card { border-radius: 16px; padding: 32px 28px; position: relative; transition: transform 0.3s; animation: fadeUp 0.5s ease both; }
+  .package-card:hover { transform: translateY(-6px); }
+  .package-card.starter { background: var(--dark3); border: 1px solid #2a2a2a; }
+  .package-card.pro { background: linear-gradient(160deg,#1A1500 0%,#0D0D0D 100%); border: 2px solid var(--gold); transform: scale(1.03); }
+  .package-card.pro:hover { transform: scale(1.03) translateY(-6px); }
+  .package-card.elite { background: var(--dark3); border: 1px solid #2a2a2a; }
+
+  .popular-badge {
+    position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+    background: var(--gold); color: var(--dark); font-size: 11px; font-weight: 900;
+    padding: 5px 18px; border-radius: 20px; white-space: nowrap; letter-spacing: 1px;
+  }
+  .first-month-tag {
+    display: inline-block; background: rgba(76,175,130,0.15); border: 1px solid rgba(76,175,130,0.4);
+    color: var(--green); font-size: 11px; font-weight: 700; padding: 3px 12px; border-radius: 20px; margin-bottom: 12px;
+  }
+  .pkg-tier { font-size: 11px; font-weight: 700; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; margin-bottom: 6px; }
+  .pkg-name { font-family: 'Tajawal', sans-serif; font-size: 26px; font-weight: 800; margin-bottom: 6px; }
+  .pkg-desc { font-size: 13px; color: var(--muted); margin-bottom: 20px; line-height: 1.6; }
+  .pkg-price { display: flex; align-items: baseline; gap: 6px; margin-bottom: 6px; }
+  .price-num { font-family: 'Tajawal', sans-serif; font-size: 42px; font-weight: 800; color: var(--gold); line-height: 1; }
+  .price-currency { font-size: 16px; color: var(--gold); font-weight: 700; }
+  .price-period { font-size: 13px; color: var(--muted); }
+  .price-first-month { font-size: 13px; color: var(--green); margin-bottom: 20px; font-weight: 600; }
+  .price-first-month s { color: #555; font-weight: 400; margin-left: 6px; }
+
+  .ads-budget {
+    background: rgba(201,168,76,0.08); border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 8px; padding: 12px 16px; margin-bottom: 20px; font-size: 13px;
+  }
+  .ads-budget .ads-title { color: var(--gold); font-weight: 700; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+  .ads-budget .ads-detail { color: #aaa; font-size: 12px; line-height: 1.7; }
+
+  .pkg-divider { border: none; border-top: 1px solid #2a2a2a; margin-bottom: 20px; }
+  .pkg-features { list-style: none; margin-bottom: 28px; }
+  .pkg-features li {
+    font-size: 13px; color: #ccc; padding: 7px 0;
+    display: flex; align-items: flex-start; gap: 10px; line-height: 1.5;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .pkg-features li:last-child { border-bottom: none; }
+  .feat-check { width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; flex-shrink: 0; margin-top: 1px; }
+  .feat-check.yes { background: rgba(201,168,76,0.2); color: var(--gold); }
+  .feat-check.no { background: rgba(255,255,255,0.05); color: #444; }
+  .pkg-features li.disabled { color: #555; }
+
+  .pkg-cta { width: 100%; padding: 14px; border-radius: 8px; font-family: 'Cairo', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.3s; border: none; }
+  .pkg-cta.primary { background: linear-gradient(135deg,var(--gold),#8B6914); color: var(--dark); }
+  .pkg-cta.primary:hover { background: linear-gradient(135deg,var(--gold-light),var(--gold)); transform: scale(1.02); }
+  .pkg-cta.secondary { background: transparent; border: 1px solid #333; color: var(--text); }
+  .pkg-cta.secondary:hover { border-color: var(--gold); color: var(--gold); }
+
+  .custom-package {
+    background: var(--dark3); border: 2px dashed #333; border-radius: 16px;
+    padding: 40px; text-align: center; margin-bottom: 60px; transition: border-color 0.3s;
+  }
+  .custom-package:hover { border-color: var(--gold); }
+  .custom-package .custom-icon { font-size: 40px; margin-bottom: 16px; }
+  .custom-package h3 { font-family: 'Tajawal', sans-serif; font-size: 24px; font-weight: 800; margin-bottom: 10px; }
+  .custom-package p { color: var(--muted); font-size: 14px; max-width: 500px; margin: 0 auto 24px; line-height: 1.7; }
+  .custom-package button {
+    background: transparent; border: 1px solid var(--gold); color: var(--gold);
+    font-family: 'Cairo', sans-serif; font-size: 14px; font-weight: 700;
+    padding: 12px 32px; border-radius: 8px; cursor: pointer; transition: all 0.3s;
+  }
+  .custom-package button:hover { background: var(--gold); color: var(--dark); }
+
+  .info-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: 16px; margin-bottom: 60px; }
+  .info-card {
+    background: var(--dark3); border: 1px solid #2a2a2a; border-right: 3px solid var(--gold);
+    border-radius: 8px; padding: 20px 24px; font-size: 14px; color: #bbb; line-height: 1.8;
+  }
+  .info-card strong { color: var(--gold); font-size: 15px; display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+
+  footer { text-align: center; padding: 40px 0; border-top: 1px solid #1e1e1e; color: var(--muted); font-size: 13px; }
+  footer span { color: var(--gold); }
+
+  @keyframes fadeDown { from { opacity:0; transform:translateY(-20px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes fadeUp   { from { opacity:0; transform:translateY(30px);  } to { opacity:1; transform:translateY(0); } }
+  .service-category:nth-child(1){animation-delay:0s}
+  .service-category:nth-child(2){animation-delay:.08s}
+  .service-category:nth-child(3){animation-delay:.16s}
+  .service-category:nth-child(4){animation-delay:.24s}
+  .service-category:nth-child(5){animation-delay:.32s}
+  .service-category:nth-child(6){animation-delay:.40s}
+  .service-category:nth-child(7){animation-delay:.48s}
+  .service-category:nth-child(8){animation-delay:.56s}
+  .package-card:nth-child(1){animation-delay:0s}
+  .package-card:nth-child(2){animation-delay:.15s}
+  .package-card:nth-child(3){animation-delay:.3s}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="badge">Social Media Management</div>
+    <h1>خدمات إدارة<br><span>السوشيال ميديا</span></h1>
+    <p class="subtitle">هوية احترافية · استراتيجية محكمة · إعلانات مموّلة · نتائج حقيقية<br>على جميع المنصات</p>
+  </header>
+
+  <!-- DISCOUNT BANNER -->
+  <div class="discount-banner">
+    <div class="discount-badge">🎉 خصم 50%</div>
+    <div class="discount-text">على جميع الباقات <span>الشهر الأول فقط</span> — جرّب الخدمة بنص السعر قبل الالتزام</div>
+  </div>
+
+  <!-- PLATFORMS -->
+  <section class="platforms-section">
+    <div class="section-title">📱 المنصات التي نديرها</div>
+    <p class="section-sub">نغطي جميع منصات التواصل الاجتماعي الرئيسية</p>
+    <div class="platforms-row">
+      <div class="platform-chip"><span class="icon">📘</span> Facebook</div>
+      <div class="platform-chip"><span class="icon">🎵</span> TikTok</div>
+      <div class="platform-chip"><span class="icon">📸</span> Instagram</div>
+      <div class="platform-chip"><span class="icon">🐦</span> X (Twitter)</div>
+      <div class="platform-chip"><span class="icon">💼</span> LinkedIn</div>
+      <div class="platform-chip"><span class="icon">▶️</span> YouTube</div>
+      <div class="platform-chip"><span class="icon">📌</span> Pinterest</div>
+      <div class="platform-chip"><span class="icon">👻</span> Snapchat</div>
+      <div class="platform-chip"><span class="icon">✈️</span> Telegram</div>
+      <div class="platform-chip"><span class="icon">💚</span> WhatsApp Business</div>
+    </div>
+  </section>
+
+  <!-- SERVICES CATALOG -->
+  <section>
+    <div class="section-title">📋 كتالوج الخدمات الكامل</div>
+    <p class="section-sub">جميع الخدمات مصنّفة حسب المسار</p>
+    <div class="services-grid">
+
+      <div class="service-category">
+        <div class="cat-header"><div class="cat-icon">🎨</div><div><div class="cat-name">الهوية البصرية</div></div></div>
+        <ul class="service-list">
+          <li>تصميم لوجو احترافي</li>
+          <li>تحديد الألوان والخطوط (Brand Colors)</li>
+          <li>تصميم قالب البروفايل والغلاف</li>
+          <li>Bio احترافي لكل منصة</li>
+          <li>Brand Guidelines كامل</li>
+        </ul>
+      </div>
+
+      <div class="service-category">
+        <div class="cat-header"><div class="cat-icon">⚙️</div><div><div class="cat-name">إعداد وتحسين الحسابات</div></div></div>
+        <ul class="service-list">
+          <li>تحويل الأكاونت لـ Business / Creator</li>
+          <li>إعداد Bio SEO لكل منصة</li>
+          <li>ربط المنصات ببعضها</li>
+          <li>إعداد Linktree أو Bio Link</li>
+          <li>تفعيل الأدوات والتحليلات</li>
+        </ul>
+      </div>
+
+      <div class="service-category">
+        <div class="cat-header"><div class="cat-icon">🧭</div><div><div class="cat-name">الاستراتيجية والتخطيط</div></div></div>
+        <ul class="service-list">
+          <li>تحليل المنافسين وبحث السوق</li>
+          <li>تحليل المنتجات والخدمات</li>
+          <li>استراتيجية محتوى لـ 3 أشهر</li>
+          <li>خطة نشر شهرية (Content Calendar)</li>
+          <li>تحديد Tone of Voice وأعمدة المحتوى</li>
+        </ul>
+      </div>
+
+      <div class="service-category">
+        <div class="cat-header"><div class="cat-icon">🔬</div><div><div class="cat-name">الاستشارة التسويقية</div></div></div>
+        <ul class="service-list">
+          <li>استشارة مبنية على بحث السوق</li>
+          <li>تحليل المنافسين وتحديد الفرص</li>
+          <li>دراسة المنتجات والخدمات وتحسين العرض</li>
+          <li>تحديد الجمهور المستهدف الفعلي</li>
+          <li>توصيات استراتيجية قابلة للتنفيذ</li>
+        </ul>
+      </div>
+
+      <div class="service-category">
+        <div class="cat-header"><div class="cat-icon">✍️</div><div><div class="cat-name">إنتاج المحتوى</div></div></div>
+        <ul class="service-list">
+          <li>كتابة كابشن لكل بوست</li>
+          <li>اختيار هاشتاقات استراتيجية</li>
+          <li>تصميمات بوستات (ثابتة وكاروسيل)</li>
+          <li>تصميم ستوريات تفاعلية</li>
+          <li>تمبليت ثيمد قابل للتكرار</li>
+        </ul>
+      </div>
+
+      <div class="service-category">
+        <div class="cat-header"><div class="cat-icon">🎬</div><div><div class="cat-name">الفيديو والمونتاج</div></div></div>
+        <ul class="service-list">
+          <li>مونتاج ريلز وتيك توك</li>
+          <li>إضافة سبتايتل على الفيديو</li>
+          <li>إضافة موسيقى وMood مناسب</li>
+          <li>تصميم Thumbnail احترافي</li>
+          <li>Intro / Outro للبراند</li>
+          <li>إرشادات وتدريب على طريقة التصوير</li>
+        </ul>
+      </div>
+
+      <div class="service-category">
+        <div class="cat-header"><div class="cat-icon">📊</div><div><div class="cat-name">الإدارة والتحليل</div></div></div>
+        <ul class="service-list">
+          <li>جدولة ونشر المحتوى</li>
+          <li>الرد على التعليقات والرسائل</li>
+          <li>تقرير أداء شهري بمؤشرات KPIs</li>
+          <li>تعديل الاستراتيجية بناءً على النتائج</li>
+          <li>اجتماع متابعة شهري مع العميل</li>
+        </ul>
+      </div>
+
+      <div class="service-category external-services">
+        <div class="cat-header"><div class="cat-icon">🖨️</div><div><div class="cat-name">الخدمات الخارجية والطباعة</div></div></div>
+        <ul class="service-list">
+          <li>تصميم وطباعة كروت الأعمال</li>
+          <li>تصميم وطباعة فلايرات دعائية</li>
+          <li>تصميم وطباعة يافطات ولوحات</li>
+          <li>تصميم بنرات إعلانية</li>
+          <li>تصميم منيوهات وبروشورات</li>
+          <li>مواد طباعة أخرى حسب الطلب</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PACKAGES -->
+  <section class="packages-section">
+    <div class="section-title">💼 الباقات الثلاث</div>
+    <p class="section-sub">اختر الباقة المناسبة · جميع الباقات بخصم 50% الشهر الأول</p>
+    <div class="packages-grid">
+
+      <!-- STARTER -->
+      <div class="package-card starter">
+        <div class="first-month-tag">🎉 أول شهر بـ 1,000 ج فقط</div>
+        <div class="pkg-tier">الباقة الأولى</div>
+        <div class="pkg-name">Starter</div>
+        <div class="pkg-desc">للمشاريع الناشئة التي تريد الظهور الاحترافي والبداية الصحيحة</div>
+        <div class="pkg-price">
+          <span class="price-num">2,000</span>
+          <span class="price-currency">ج</span>
+          <span class="price-period">/ شهرياً</span>
+        </div>
+        <div class="price-first-month">أول شهر: 1,000 ج <s>2,000 ج</s></div>
+        <div class="ads-budget">
+          <div class="ads-title">📢 الإعلانات المموّلة</div>
+          <div class="ads-detail">ميزانية إعلانات تصل لـ <strong style="color:var(--gold)">3,000 جنيه</strong><br>رسوم الإدارة: 5% من الميزانية (لا تقل عن 150 ج)</div>
+        </div>
+        <hr class="pkg-divider">
+        <ul class="pkg-features">
+          <li><span class="feat-check yes">✓</span> إدارة منصتين: Facebook + منصة من اختيارك</li>
+          <li><span class="feat-check yes">✓</span> هوية بصرية أساسية (لوجو + ألوان)</li>
+          <li><span class="feat-check yes">✓</span> استراتيجية محتوى شهرية</li>
+          <li><span class="feat-check yes">✓</span> 12 بوست شهرياً (تصميم + كابشن)</li>
+          <li><span class="feat-check yes">✓</span> 4 ستوريات أسبوعياً</li>
+          <li><span class="feat-check yes">✓</span> 4 فيديوهات ريلز / تيك توك بالمونتاج</li>
+          <li><span class="feat-check yes">✓</span> إرشادات التصوير للعميل</li>
+          <li><span class="feat-check yes">✓</span> استشارة تسويقية أساسية</li>
+          <li><span class="feat-check yes">✓</span> تقرير أداء شهري (KPIs)</li>
+          <li><span class="feat-check yes">✓</span> اجتماع استراتيجي شهري</li>
+          <li class="disabled"><span class="feat-check no">✕</span> Brand Guidelines كاملة</li>
+          <li class="disabled"><span class="feat-check no">✕</span> إدارة التعليقات والرسائل</li>
+        </ul>
+        <button class="pkg-cta secondary">اختيار Starter</button>
+      </div>
+
+      <!-- PRO -->
+      <div class="package-card pro">
+        <div class="popular-badge">⭐ الأكثر طلبًا</div>
+        <div class="first-month-tag">🎉 أول شهر بـ 1,750 ج فقط</div>
+        <div class="pkg-tier">الباقة الثانية</div>
+        <div class="pkg-name">Pro</div>
+        <div class="pkg-desc">للمشاريع الجادة التي تريد نمواً حقيقياً وحضوراً قوياً على المنصتين</div>
+        <div class="pkg-price">
+          <span class="price-num">3,500</span>
+          <span class="price-currency">ج</span>
+          <span class="price-period">/ شهرياً</span>
+        </div>
+        <div class="price-first-month">أول شهر: 1,750 ج <s>3,500 ج</s></div>
+        <div class="ads-budget">
+          <div class="ads-title">📢 الإعلانات المموّلة</div>
+          <div class="ads-detail">ميزانية إعلانات تصل لـ <strong style="color:var(--gold)">7,500 جنيه</strong><br>رسوم الإدارة: 5% من الميزانية (لا تقل عن 150 ج)</div>
+        </div>
+        <hr class="pkg-divider" style="border-color:#3a3000">
+        <ul class="pkg-features">
+          <li><span class="feat-check yes">✓</span> إدارة 3 منصات من اختيارك</li>
+          <li><span class="feat-check yes">✓</span> هوية بصرية كاملة + Brand Guidelines</li>
+          <li><span class="feat-check yes">✓</span> استراتيجية 3 أشهر + خطة شهرية</li>
+          <li><span class="feat-check yes">✓</span> 20 بوست شهرياً (تصميم + كابشن)</li>
+          <li><span class="feat-check yes">✓</span> ستوريات 5 أيام / أسبوع</li>
+          <li><span class="feat-check yes">✓</span> 8 فيديوهات ريلز / تيك توك بالمونتاج</li>
+          <li><span class="feat-check yes">✓</span> Intro/Outro للبراند</li>
+          <li><span class="feat-check yes">✓</span> إرشادات تصوير متقدمة للعميل</li>
+          <li><span class="feat-check yes">✓</span> إدارة التعليقات والرسائل</li>
+          <li><span class="feat-check yes">✓</span> استشارة تسويقية كاملة (بحث سوق)</li>
+          <li><span class="feat-check yes">✓</span> تقرير KPIs شهري مفصّل</li>
+          <li><span class="feat-check yes">✓</span> اجتماع استراتيجي شهري</li>
+        </ul>
+        <button class="pkg-cta primary">اختيار Pro</button>
+      </div>
+
+      <!-- ELITE -->
+      <div class="package-card elite">
+        <div class="first-month-tag">🎉 أول شهر بـ 2,500 ج فقط</div>
+        <div class="pkg-tier">الباقة الثالثة</div>
+        <div class="pkg-name">Elite</div>
+        <div class="pkg-desc">للعلامات التجارية التي تريد الهيمنة الكاملة وأعلى مستوى من الخدمة</div>
+        <div class="pkg-price">
+          <span class="price-num">5,000</span>
+          <span class="price-currency">ج</span>
+          <span class="price-period">/ شهرياً</span>
+        </div>
+        <div class="price-first-month">أول شهر: 2,500 ج <s>5,000 ج</s></div>
+        <div class="ads-budget">
+          <div class="ads-title">📢 الإعلانات المموّلة</div>
+          <div class="ads-detail">ميزانية إعلانات تصل لـ <strong style="color:var(--gold)">10,000 جنيه</strong><br>رسوم الإدارة: 5% من الميزانية (لا تقل عن 150 ج)</div>
+        </div>
+        <hr class="pkg-divider">
+        <ul class="pkg-features">
+          <li><span class="feat-check yes">✓</span> إدارة 4 منصات من اختيارك</li>
+          <li><span class="feat-check yes">✓</span> 30 بوست شهرياً (كاروسيل + ثابت + تفاعلي)</li>
+          <li><span class="feat-check yes">✓</span> 12 فيديو ريلز / تيك توك + Thumbnails</li>
+          <li><span class="feat-check yes">✓</span> إدارة يومية كاملة للتعليقات والرسائل</li>
+          <li><span class="feat-check yes">✓</span> استشارة تسويقية متعمقة + خطة نمو</li>
+          <li><span class="feat-check yes">✓</span> تعديل فوري للمحتوى حسب الترند</li>
+          <li><span class="feat-check yes">✓</span> 2 اجتماع استراتيجي شهري</li>
+          <li><span class="feat-check yes">✓</span> لوحة تحكم أداء (Dashboard)</li>
+          <li><span class="feat-check yes">✓</span> دعم واتساب أولوية 7 أيام</li>
+          <li><span class="feat-check yes">✓</span> مراجعة أداء كل منتصف شهر</li>
+        </ul>
+        <button class="pkg-cta secondary">اختيار Elite</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CUSTOM PACKAGE -->
+  <div class="custom-package">
+    <div class="custom-icon">🛠️</div>
+    <h3>باقة مخصصة حسب طلبك</h3>
+    <p>مش لاقي الباقة المناسبة؟ نبني لك باقة بالظبط على قد احتياجاتك — خدمات أقل أو أكثر، منصات محددة، أو ميزانية مختلفة. قولنا وهنعمل لك عرض سعر مخصص.</p>
+    <button>طلب باقة مخصصة ✦</button>
+  </div>
+
+  <!-- INFO CARDS -->
+  <div class="info-grid">
+    <div class="info-card">
+      <strong>📢 نظام الإعلانات المموّلة</strong>
+      رسوم إدارة الإعلانات 5% من الميزانية، وأقل رسوم هي 150 جنيه. ميزانية الإعلانات منفصلة عن سعر الباقة ويتحملها العميل مباشرة للمنصة.
+    </div>
+    <div class="info-card">
+      <strong>📈 مؤشرات الأداء (KPIs) المُتتبَّعة</strong>
+      نمو المتابعين · Engagement Rate · الوصول الكلي · مشاهدات الفيديو · نسبة الحفظ والمشاركة · الرسائل الواردة · CTR — في تقرير شهري منسّق.
+    </div>
+    <div class="info-card">
+      <strong>🎥 إرشادات التصوير</strong>
+      مش محتاج كاميرا احترافية — هنعلمك إزاي تصور بموبايلك بطريقة احترافية: الإضاءة، الزوايا، الأفكار، وكل التعليمات اللي محتاجها قبل التصوير.
+    </div>
+    <div class="info-card">
+      <strong>🖨️ الخدمات الخارجية والطباعة</strong>
+      الكروت، الفلايرات، اليافطات، والمواد المطبوعة متاحة حسب الطلب بسعر منفصل. تواصل معنا لأخذ عرض سعر حسب المقاسات والكميات.
+    </div>
+  </div>
+
+  <footer>
+    الأسعار بالجنيه المصري · خصم 50% على أول شهر لجميع الباقات · <span>تواصل معنا</span> لعرض مخصص أو استشارة مجانية
+  </footer>
+
+</div>
+</body>
+</html>
