@@ -3,171 +3,241 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>باقات إدارة تيك توك الاحترافية</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;400;700;800&display=swap" rel="stylesheet">
+<title>عرض سعر إدارة تيك توك - تصميم جديد</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Tajawal:wght@500;800&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --gold: #C9A84C;
-    --gold-light: #F0D080;
-    --dark: #0D0D0D;
-    --dark3: #1E1E1E;
-    --text: #E8E8E8;
-    --muted: #888;
-    --green: #4CAF82;
-    --tiktok-pink: #FE2C55;
-    --tiktok-cyan: #25F4EE;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: var(--dark); color: var(--text); font-family: 'Cairo', sans-serif; overflow-x: hidden; }
-  body::before {
-    content: ''; position: fixed; inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-    pointer-events: none; z-index: 0;
-  }
-  .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+    :root {
+        --primary: #FE2C55;
+        --secondary: #25F4EE;
+        --bg: #010101;
+        --card-bg: #121212;
+        --text: #FFFFFF;
+        --muted: #A0A0A0;
+    }
 
-  header { padding: 80px 0 60px; text-align: center; position: relative; }
-  header::before {
-    content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-    width: 600px; height: 600px;
-    background: radial-gradient(circle, rgba(254,44,85,0.08) 0%, transparent 70%); pointer-events: none;
-  }
-  .badge {
-    display: inline-block; border: 1px solid var(--tiktok-pink); color: var(--tiktok-pink);
-    font-size: 12px; font-weight: 700; letter-spacing: 3px; padding: 6px 20px;
-    border-radius: 2px; margin-bottom: 24px; animation: fadeDown 0.6s ease both;
-  }
-  h1 { font-family: 'Tajawal', sans-serif; font-size: clamp(36px,6vw,72px); font-weight: 800; line-height: 1.1; animation: fadeDown 0.6s 0.1s ease both; }
-  h1 span { color: var(--tiktok-pink); }
-  .subtitle { margin-top: 16px; color: var(--muted); font-size: 16px; max-width: 600px; margin-inline: auto; line-height: 1.7; animation: fadeDown 0.6s 0.2s ease both; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        background-color: var(--bg);
+        color: var(--text);
+        font-family: 'Cairo', sans-serif;
+        line-height: 1.6;
+    }
 
-  .packages-section { margin-bottom: 60px; margin-top: 40px; }
-  .packages-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; align-items: start; }
-  @media (max-width: 900px) {
-    .packages-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
-  }
-  .package-card { border-radius: 16px; padding: 32px 28px; position: relative; transition: transform 0.3s; animation: fadeUp 0.5s ease both; background: var(--dark3); border: 1px solid #2a2a2a; }
-  .package-card:hover { transform: translateY(-6px); }
-  .package-card.pro { border: 2px solid var(--tiktok-pink); transform: scale(1.03); }
-  .package-card.pro:hover { transform: scale(1.03) translateY(-6px); }
+    .hero {
+        padding: 100px 20px;
+        text-align: center;
+        background: radial-gradient(circle at top right, rgba(254, 44, 85, 0.15), transparent),
+                    radial-gradient(circle at bottom left, rgba(37, 244, 238, 0.1), transparent);
+    }
 
-  .popular-badge {
-    position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
-    background: var(--tiktok-pink); color: white; font-size: 11px; font-weight: 900;
-    padding: 5px 18px; border-radius: 20px; white-space: nowrap; letter-spacing: 1px;
-  }
-  .pkg-tier { font-size: 11px; font-weight: 700; letter-spacing: 3px; color: var(--tiktok-cyan); text-transform: uppercase; margin-bottom: 6px; }
-  .pkg-name { font-family: 'Tajawal', sans-serif; font-size: 26px; font-weight: 800; margin-bottom: 6px; }
-  .pkg-desc { font-size: 13px; color: var(--muted); margin-bottom: 20px; line-height: 1.6; }
-  .pkg-price { display: flex; align-items: baseline; gap: 6px; margin-bottom: 20px; }
-  .price-num { font-family: 'Tajawal', sans-serif; font-size: 42px; font-weight: 800; color: var(--text); line-height: 1; }
-  .price-currency { font-size: 16px; color: var(--muted); font-weight: 700; }
-  .price-period { font-size: 13px; color: var(--muted); }
+    .hero h1 {
+        font-family: 'Tajawal', sans-serif;
+        font-size: 3rem;
+        font-weight: 800;
+        margin-bottom: 20px;
+    }
 
-  .pkg-features { list-style: none; margin-bottom: 28px; }
-  .pkg-features li {
-    font-size: 13px; color: #ccc; padding: 10px 0;
-    display: flex; align-items: flex-start; gap: 10px; line-height: 1.5;
-    border-bottom: 1px solid rgba(255,255,255,0.04);
-  }
-  .pkg-features li:last-child { border-bottom: none; }
-  .feat-check { color: var(--tiktok-cyan); font-size: 14px; flex-shrink: 0; }
+    .hero h1 span {
+        background: linear-gradient(to left, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
 
-  .pkg-cta { width: 100%; padding: 14px; border-radius: 8px; font-family: 'Cairo', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.3s; border: none; }
-  .pkg-cta.primary { background: var(--tiktok-pink); color: white; }
-  .pkg-cta.primary:hover { opacity: 0.9; transform: scale(1.02); }
-  .pkg-cta.secondary { background: transparent; border: 1px solid #333; color: var(--text); }
-  .pkg-cta.secondary:hover { border-color: var(--tiktok-pink); color: var(--tiktok-pink); }
+    .hero p {
+        font-size: 1.2rem;
+        color: var(--muted);
+        max-width: 700px;
+        margin: 0 auto;
+    }
 
-  footer { text-align: center; padding: 60px 0; color: var(--muted); font-size: 13px; }
-  footer span { color: var(--tiktok-pink); }
+    .pricing-container {
+        max-width: 1200px;
+        margin: -50px auto 100px;
+        padding: 0 20px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 30px;
+    }
 
-  @keyframes fadeDown { from { opacity:0; transform:translateY(-20px); } to { opacity:1; transform:translateY(0); } }
-  @keyframes fadeUp   { from { opacity:0; transform:translateY(30px);  } to { opacity:1; transform:translateY(0); } }
+    .card {
+        background: var(--card-bg);
+        border-radius: 24px;
+        padding: 40px;
+        border: 1px solid #222;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .card:hover {
+        transform: translateY(-15px);
+        border-color: var(--primary);
+        box-shadow: 0 20px 40px rgba(254, 44, 85, 0.1);
+    }
+
+    .card.featured {
+        border: 2px solid var(--primary);
+        background: linear-gradient(145deg, #121212, #1a1a1a);
+    }
+
+    .card.featured::before {
+        content: "الأكثر طلباً";
+        position: absolute;
+        top: 20px;
+        left: -35px;
+        background: var(--primary);
+        color: white;
+        padding: 5px 40px;
+        transform: rotate(-45deg);
+        font-size: 0.8rem;
+        font-weight: bold;
+    }
+
+    .card h2 {
+        font-size: 1.8rem;
+        margin-bottom: 10px;
+        color: var(--secondary);
+    }
+
+    .price {
+        font-size: 2.5rem;
+        font-weight: 900;
+        margin: 20px 0;
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+    }
+
+    .price span {
+        font-size: 1rem;
+        color: var(--muted);
+        font-weight: normal;
+    }
+
+    .features {
+        list-style: none;
+        margin-bottom: 40px;
+    }
+
+    .features li {
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 0.95rem;
+    }
+
+    .features li::before {
+        content: "✦";
+        color: var(--primary);
+    }
+
+    .btn {
+        display: block;
+        width: 100%;
+        padding: 15px;
+        text-align: center;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: 0.3s;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-primary {
+        background: var(--primary);
+        color: white;
+    }
+
+    .btn-outline {
+        background: transparent;
+        border: 1px solid #333;
+        color: white;
+    }
+
+    .btn:hover {
+        opacity: 0.9;
+        transform: scale(1.02);
+    }
+
+    footer {
+        text-align: center;
+        padding: 50px;
+        border-top: 1px solid #111;
+        color: var(--muted);
+    }
+
+    footer span {
+        color: var(--primary);
+        font-weight: bold;
+    }
+
+    @media (max-width: 768px) {
+        .hero h1 { font-size: 2.2rem; }
+        .pricing-container { grid-template-columns: 1fr; }
+    }
 </style>
 </head>
 <body>
 
-<div class="container">
-  <header>
-    <div class="badge">TIKTOK GROWTH</div>
-    <h1>إدارة حسابات <span>تيك توك</span></h1>
-    <p class="subtitle">باقات مخصصة لصناعة المحتوى القصير وزيادة التفاعل والانتشار على أقوى منصة حالياً.</p>
-  </header>
+    <section class="hero">
+        <h1>باقات <span>تيك توك</span> الإبداعية</h1>
+        <p>حوّل حسابك إلى ماكينة لإنتاج المحتوى والانتشار السريع مع باقاتنا المخصصة للنمو الحقيقي.</p>
+    </section>
 
-  <section class="packages-section">
-    <div class="packages-grid">
-      
-      <!-- الباقة الأساسية -->
-      <div class="package-card">
-        <div class="pkg-tier">BASIC</div>
-        <h3 class="pkg-name">باقة الانطلاق</h3>
-        <p class="pkg-desc">مثالية للحسابات الجديدة التي ترغب في بناء تواجد مستمر.</p>
-        <div class="pkg-price">
-          <span class="price-num">1500</span>
-          <span class="price-currency">ج.م</span>
-          <span class="price-period">/ شهرياً</span>
+    <div class="pricing-container">
+        <!-- الباقة الأولى -->
+        <div class="card">
+            <h2>باقة البداية</h2>
+            <p>للمبتدئين والراغبين في تجربة المنصة</p>
+            <div class="price">1,200 <span>ج.م / شهر</span></div>
+            <ul class="features">
+                <li>8 فيديوهات مونتاج احترافي</li>
+                <li>كتابة سكربتات تريند</li>
+                <li>نشر وجدولة المحتوى</li>
+                <li>تحليل أولي للحساب</li>
+                <li>دعم عبر الواتساب</li>
+            </ul>
+            <button class="btn btn-outline">ابدأ الآن</button>
         </div>
-        <ul class="pkg-features">
-          <li><span class="feat-check">✓</span> 12 فيديو احترافي شهرياً</li>
-          <li><span class="feat-check">✓</span> كتابة سيناريوهات جذابة</li>
-          <li><span class="feat-check">✓</span> مونتاج سريع ومواكب للتريند</li>
-          <li><span class="feat-check">✓</span> نشر الفيديوهات في أوقات الذروة</li>
-          <li><span class="feat-check">✓</span> الرد على التعليقات الأساسية</li>
-        </ul>
-        <button class="pkg-cta secondary">اطلبها الآن</button>
-      </div>
 
-      <!-- الباقة الاحترافية -->
-      <div class="package-card pro">
-        <div class="popular-badge">الأكثر طلباً</div>
-        <div class="pkg-tier">PROFESSIONAL</div>
-        <h3 class="pkg-name">باقة النمو</h3>
-        <p class="pkg-desc">مصممة للانتشار السريع وبناء قاعدة جماهيرية حقيقية.</p>
-        <div class="pkg-price">
-          <span class="price-num">3000</span>
-          <span class="price-currency">ج.م</span>
-          <span class="price-period">/ شهرياً</span>
+        <!-- الباقة الثانية -->
+        <div class="card featured">
+            <h2>باقة الانتشار</h2>
+            <p>الخيار الأمثل للنمو السريع والمستمر</p>
+            <div class="price">2,500 <span>ج.م / شهر</span></div>
+            <ul class="features">
+                <li>15 فيديو مونتاج سينمائي</li>
+                <li>استراتيجية محتوى شهرية</li>
+                <li>استخدام أصوات حصرية</li>
+                <li>إدارة كاملة للتعليقات</li>
+                <li>تقرير أداء نصف شهري</li>
+                <li>تغطية تريندات فورية</li>
+            </ul>
+            <button class="btn btn-primary">اطلب الأكثر طلباً</button>
         </div>
-        <ul class="pkg-features">
-          <li><span class="feat-check">✓</span> 20 فيديو احترافي شهرياً</li>
-          <li><span class="feat-check">✓</span> استراتيجية محتوى مخصصة</li>
-          <li><span class="feat-check">✓</span> مونتاج سينمائي متقدم</li>
-          <li><span class="feat-check">✓</span> استخدام أصوات وتريندات حصرية</li>
-          <li><span class="feat-check">✓</span> تقرير أداء شهري مفصل</li>
-          <li><span class="feat-check">✓</span> إدارة كاملة للحساب</li>
-        </ul>
-        <button class="pkg-cta primary">اطلبها الآن</button>
-      </div>
 
-      <!-- باقة النخبة -->
-      <div class="package-card">
-        <div class="pkg-tier">ELITE</div>
-        <h3 class="pkg-name">باقة السيطرة</h3>
-        <p class="pkg-desc">للعلامات التجارية التي تريد الهيمنة على التيك توك.</p>
-        <div class="pkg-price">
-          <span class="price-num">5000</span>
-          <span class="price-currency">ج.م</span>
-          <span class="price-period">/ شهرياً</span>
+        <!-- الباقة الثالثة -->
+        <div class="card">
+            <h2>باقة الاحتراف</h2>
+            <p>للعلامات التجارية والسيطرة الكاملة</p>
+            <div class="price">4,500 <span>ج.م / شهر</span></div>
+            <ul class="features">
+                <li>25 فيديو (فيديو يومياً تقريباً)</li>
+                <li>خطة تسويقية شاملة</li>
+                <li>إدارة حملات إعلانية ممولة</li>
+                <li>تصوير خارجي (حسب الطلب)</li>
+                <li>دعم فني VIP 24/7</li>
+                <li>تحليل منافسين عميق</li>
+            </ul>
+            <button class="btn btn-outline">تواصل معنا</button>
         </div>
-        <ul class="pkg-features">
-          <li><span class="feat-check">✓</span> 30 فيديو (فيديو يومياً)</li>
-          <li><span class="feat-check">✓</span> تغطية أحداث وفعاليات مباشرة</li>
-          <li><span class="feat-check">✓</span> إدارة حملات إعلانية (Ads)</li>
-          <li><span class="feat-check">✓</span> تعاون مع مؤثرين (Influencers)</li>
-          <li><span class="feat-check">✓</span> دعم فني واستشارات 24/7</li>
-          <li><span class="feat-check">✓</span> تصوير احترافي (اختياري)</li>
-        </ul>
-        <button class="pkg-cta secondary">اطلبها الآن</button>
-      </div>
-
     </div>
-  </section>
 
-  <footer>
-    <p>بالهمه تكن في القمة <span>✦</span> جميع الحقوق محفوظة</p>
-  </footer>
-</div>
+    <footer>
+        <p>للتواصل 01501074557 <span>✦</span> جميع الحقوق محفوظة 2026</p>
+    </footer>
 
 </body>
 </html>
